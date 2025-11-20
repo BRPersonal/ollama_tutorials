@@ -1,15 +1,15 @@
-from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_classic.output_parsers import OutputFixingParser
 from pydantic import BaseModel, Field
 from typing import List
 from recipe import Recipe
+from utils.llm_manager import get_llm
 
 # 1. Set up the LLMs
 # The first LLM tries to generate JSON.
 # We set temperature=1.0 to *encourage* it to make a mistake for this demo.
-json_llm = ChatOllama(
+json_llm = get_llm(
     model="llama3.1",
     temperature=1.0, # Higher temp = more creative = higher chance of error
     format="json" 
@@ -17,7 +17,7 @@ json_llm = ChatOllama(
 
 # The second LLM is the "fixer". It's a standard, smart model.
 # No JSON mode here, as the OutputFixingParser sends it a natural language prompt.
-fixer_llm = ChatOllama(
+fixer_llm = get_llm(
     model="llama3.1",
     temperature=0.0 # We want the fixer to be precise
 )
@@ -53,11 +53,12 @@ prompt = PromptTemplate(
 # The auto_fixing_parser handles the try/fail/fix/retry logic.
 chain = prompt | json_llm | auto_fixing_parser
 
-# 6. Execute
+# 5. Execute
 # Even if json_llm produces slightly malformed JSON (due to temp=1.0),
 # the auto_fixing_parser will catch it, send it to fixer_llm,
 # get a corrected string, and parse that into the Recipe object.
 try:
+    # The output is directly a Pydantic object, fully validated.
     response = chain.invoke({"query": "A very complex 10-step paella"})
     
     print("--- Successfully Parsed Recipe ---")

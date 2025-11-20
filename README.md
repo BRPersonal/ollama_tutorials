@@ -4,10 +4,10 @@ Sample python scripts that demoes using local AI models with Ollama
 steps
 ------
 Install Ollama and make sure it is running locally
-$ ollama pull llama3.1
+$ ollama pull llama3.1  
 
 see the list of models avaialable locally
-$ ollama list
+$ ollama list  
 
 $ uv init --python 3.13
 
@@ -20,6 +20,7 @@ $ cat .python-version
 
 $ uv add langchain langchain-community pydantic
  
+$ uv run utils/config.py  
 
 $ uv run output_parser_demo_1.py
 --- Successfully Parsed Recipe ---

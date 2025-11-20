@@ -1,12 +1,12 @@
-from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from recipe import Recipe
+from utils.llm_manager import get_llm
 
 
 # 1. Initialize the LLM
-# !!NOTICE!! We DO NOT use format="json".
+# !!NOTE!! We DO NOT use format="json".
 # The with_structured_output method handles the formatting.
-llm = ChatOllama(
+llm = get_llm(
     model="llama3.1",
     temperature=0.0
 )
@@ -17,7 +17,7 @@ llm = ChatOllama(
 structured_llm = llm.with_structured_output(Recipe)
 
 # 3. Create the Prompt Template
-# !!NOTICE!! We DO NOT need {format_instructions}.
+# !!NOTze!! We DO NOT need {format_instructions}.
 # The structured_llm automatically injects the schema
 # as a "tool" for the LLM to use.
 prompt = ChatPromptTemplate.from_messages([
