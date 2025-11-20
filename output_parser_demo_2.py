@@ -1,4 +1,4 @@
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import PromptTemplate
 from recipe import Recipe
 from utils.llm_manager import get_llm
 
@@ -17,13 +17,16 @@ llm = get_llm(
 structured_llm = llm.with_structured_output(Recipe)
 
 # 3. Create the Prompt Template
-# !!NOTze!! We DO NOT need {format_instructions}.
+# !!NOTe!! We DO NOT need {format_instructions}.
 # The structured_llm automatically injects the schema
 # as a "tool" for the LLM to use.
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are an expert chef. You must generate a recipe for the user's request."),
-    ("human", "Please create a recipe for: {query}")
-])
+prompt = PromptTemplate(
+    template=(
+        "You are an expert chef. You must generate a recipe for the user's request.\n"
+        "Please create a recipe for: {query}"
+    ),
+    input_variables=["query"]
+)
 
 # 4. Create the Chain
 chain = prompt | structured_llm
