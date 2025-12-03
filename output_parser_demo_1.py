@@ -1,3 +1,4 @@
+#This example shows how to do things manually. requires more code to write
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_classic.output_parsers import OutputFixingParser

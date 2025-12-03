@@ -10,4 +10,6 @@ dependencies = [
     "langchain-ollama>=0.1.0",
     "langchain-groq>=0.1.0",
     "pydantic>=2.12.4",
+    "openai>=2.8.1",
+    "langchain-openai>=1.1.0",
 ]

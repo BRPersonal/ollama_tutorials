@@ -1,3 +1,4 @@
+#This example shows how to achieve same result with less code
 from langchain_core.prompts import PromptTemplate
 from recipe import Recipe
 from utils.llm_manager import get_llm
